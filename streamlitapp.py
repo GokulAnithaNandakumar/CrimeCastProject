@@ -23,8 +23,11 @@ st.title('Crime Category Prediction')
 @st.cache_data
 def load_data():
     try:
-        train_data = pd.read_csv('./train.csv')
-        test_data = pd.read_csv('./test.csv')
+        train_data = pd.read_csv(
+            'https://raw.githubusercontent.com/GokulAnithaNandakumar/CrimeCastProject/main/train.csv')
+        test_data = pd.read_csv(
+            'https://raw.githubusercontent.com/GokulAnithaNandakumar/CrimeCastProject/main/test.csv')
+
     except Exception as e:
         st.error(f"An error occurred: {e}")
         train_data = None
