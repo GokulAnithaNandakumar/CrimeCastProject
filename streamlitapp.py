@@ -22,13 +22,22 @@ st.title('Crime Category Prediction')
 
 @st.cache_data
 def load_data():
-    train_data = pd.read_csv('https://crime-cast-project-60ulvk1f8-gokulanithanandakumars-projects.vercel.app/train.csv')
-    test_data = pd.read_csv('https://crime-cast-project-60ulvk1f8-gokulanithanandakumars-projects.vercel.app/test.csv')
+    try:
+        train_data = pd.read_csv('./train.csv')
+        test_data = pd.read_csv('./test.csv')
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+        train_data = None
+        test_data = None
     return train_data, test_data
 
 train_data, test_data = load_data()
 
 def extract_date_features(df):
+    if df is None:
+        raise ValueError("DataFrame is None")
+    if 'Date_Reported' not in df.columns:
+        raise ValueError("'Date_Reported' column is missing from the DataFrame")
     df['Date_Reported'] = pd.to_datetime(df['Date_Reported'])
     df['Date_Occurred'] = pd.to_datetime(df['Date_Occurred'])
     df['Year_Reported'] = df['Date_Reported'].dt.year
